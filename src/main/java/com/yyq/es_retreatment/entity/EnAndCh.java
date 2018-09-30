@@ -5,7 +5,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 
 @Document(indexName = "en-us",type="data")
-public class EnAndChStatement {
+public class EnAndCh {
 
     @Id
     private String id;
