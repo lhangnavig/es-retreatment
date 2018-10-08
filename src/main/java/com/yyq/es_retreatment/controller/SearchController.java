@@ -37,8 +37,8 @@ public class SearchController {
         for (int i = 0; i <= total / 10000; i++) {
             List<EnAndCh> dataByPage = getDataByPage(indexName, domain, subDomain, i, 10000);
             System.out.println(dataByPage);
-            String pathEn = "D:\\javaWorkStation\\es-retreatment\\src\\main\\resources\\english.txt";
-            String pathCh = "D:\\javaWorkStation\\es-retreatment\\src\\main\\resources\\chinese.txt";
+            String pathEn = "D:\\english.txt";
+            String pathCh = "D:\\chinese.txt";
             try {
                 FileUtils.writeToFile(pathEn,pathCh,dataByPage);
             } catch (Exception e) {
