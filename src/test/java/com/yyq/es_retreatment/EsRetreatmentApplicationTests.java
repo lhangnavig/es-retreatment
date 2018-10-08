@@ -21,7 +21,7 @@ public class EsRetreatmentApplicationTests {
     public void contextLoads() throws Exception {
         Integer total = searchController.getTotal("en-us", 48L, 52L, 12, 1000);
 
-        for (int i = 0; i < total / 1000; i++) {
+        for (int i = 0; i <= total / 1000; i++) {
             List<EnAndCh> dataByPage = searchController.getDataByPage("en-us", 48L, 52L, i, 1000);
             System.out.println(dataByPage);
             String pathEn = "D:\\javaWorkStation\\es-retreatment\\src\\main\\resources\\english.txt";

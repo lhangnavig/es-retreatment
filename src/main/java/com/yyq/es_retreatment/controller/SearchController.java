@@ -3,6 +3,7 @@ package com.yyq.es_retreatment.controller;
 import com.yyq.es_retreatment.entity.EnAndCh;
 import com.yyq.es_retreatment.repository.EnAndChRepository;
 
+import com.yyq.es_retreatment.util.FileUtils;
 import com.yyq.es_retreatment.util.StringUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
@@ -32,10 +33,23 @@ public class SearchController {
     @Autowired
     EnAndChRepository repo;
 
-    @GetMapping(value = "/get_data", produces = "application/json")
-    public ResponseEntity getData(@RequestParam("indexName") String indexName, @RequestParam("domain") String domain,
-                                  @RequestParam("subDomain") String subDomain) {
-        return ResponseEntity.ok().body(null);
+    @GetMapping(value = "/get_data")
+    public ResponseEntity getData(@RequestParam("indexName") String indexName, @RequestParam("domain") Long domain,
+                                  @RequestParam("subDomain") Long subDomain) {
+        Integer total = getTotal(indexName, domain, subDomain, 12, 1000);
+
+        for (int i = 0; i <= total / 1000; i++) {
+            List<EnAndCh> dataByPage = getDataByPage(indexName, domain, subDomain, i, 1000);
+            System.out.println(dataByPage);
+            String pathEn = "D:\\javaWorkStation\\es-retreatment\\src\\main\\resources\\english.txt";
+            String pathCh = "D:\\javaWorkStation\\es-retreatment\\src\\main\\resources\\chinese.txt";
+            try {
+                FileUtils.writeToFile(pathEn,pathCh,dataByPage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return ResponseEntity.ok().body("success");
     }
 
     public List<EnAndCh> getDataByPage(String indexName, Long domain, Long subDomain, Integer pageNo, Integer pageSize) {
