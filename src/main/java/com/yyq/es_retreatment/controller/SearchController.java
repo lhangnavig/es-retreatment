@@ -20,16 +20,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Iterator;
+
 import java.util.List;
 
 @RestController
 @Component
 public class SearchController {
-    @Autowired
-    private ElasticsearchTemplate elasticsearchTemplate;
+//    @Autowired
+//    private ElasticsearchTemplate elasticsearchTemplate;
 
     @Autowired
     EnAndChRepository repo;
@@ -59,16 +57,38 @@ public class SearchController {
         nativeSearchQueryBuilder.withPageable(page);
         NativeSearchQuery query = nativeSearchQueryBuilder.build();
         Page<EnAndCh> pages = repo.search(query);
-
-//        List<EnAndCh> blogList = elasticsearchTemplate.queryForList(query, EnAndCh.class);
-//        System.out.println(blogList);
-//        System.out.println("=========================");
         int total = (int) pages.getTotalElements();
-
-//        System.out.println(total);
+        System.out.println(total);
         List<EnAndCh> content = pages.getContent();
-//        System.out.println(content);
+
 
         return content;
     }
+
+    public Integer getTotal(String indexName, Long domain, Long subDomain, Integer pageNo, Integer pageSize) {
+        MatchQueryBuilder queryBuilderDomain = new MatchQueryBuilder("domain", domain);
+        MatchQueryBuilder queryBuilderSubDomain = new MatchQueryBuilder("sub_domain", subDomain);
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        if (domain != null) {
+            boolQueryBuilder.must(queryBuilderDomain);
+        }
+        if (subDomain != null) {
+            boolQueryBuilder.must(queryBuilderSubDomain);
+        }
+        NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
+        nativeSearchQueryBuilder.withQuery(boolQueryBuilder);
+        PageRequest page = null;
+        if (pageNo != null && pageSize != null) {
+            page = new PageRequest(pageNo, pageSize);
+        }
+        nativeSearchQueryBuilder.withPageable(page);
+        NativeSearchQuery query = nativeSearchQueryBuilder.build();
+        Page<EnAndCh> pages = repo.search(query);
+
+        int total = (int) pages.getTotalElements();
+
+
+        return total;
+    }
+
 }
