@@ -13,8 +13,9 @@ public class FileUtils {
         BufferedWriter bwEn = new BufferedWriter(writerEnglish);
         BufferedWriter bwCh = new BufferedWriter(writerChinese);
         for (EnAndCh enAndCh : enAndChList){
-            //中文句子不包含英文
-            if(!StringUtils.isHaveEnglishWord(enAndCh.getChinese())){
+            //过滤不符规定的数据
+            boolean filter = !StringUtils.isHaveEnglishWord(enAndCh.getChinese()) && enAndCh.getChinese().length() > 4 && !StringUtils.isHaveChineseWord(enAndCh.getEnglish());
+            if(filter){
                 bwEn.write(enAndCh.getEnglish());
                 bwEn.newLine();
                 bwCh.write(enAndCh.getChinese());

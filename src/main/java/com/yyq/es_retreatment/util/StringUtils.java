@@ -32,6 +32,7 @@ public class StringUtils {
     static final private Pattern ALLOWABLE_IP_REGEX = Pattern.compile("(127[.]0[.]0[.]1)|" + "(localhost)|" + "(^10(\\.([2][0-4]\\d|[2][5][0-5]|[01]?\\d?\\d)){3}$)|" + "(^172\\.([1][6-9]|[2]\\d|3[01])(\\.([2][0-4]\\d|[2][5][0-5]|[01]?\\d?\\d)){2}$)|" + "(^192\\.168(\\.([2][0-4]\\d|[2][5][0-5]|[01]?\\d?\\d)){2}$)");
     static final private Pattern ALLOWABLE_URL_REGEX = Pattern.compile(".*(\\.jpg|\\.png|\\.gif|\\.js|\\.css).*");
     static final private Pattern REGEX_IS_ENGLISH_WORD  = Pattern.compile("[a-zA-Z]");
+    static final private Pattern REGEX_IS_CHINESE_WORD  = Pattern.compile("[\\u4e00-\\u9fa5]");
 
     /**
      * 字符串不为空
@@ -508,4 +509,19 @@ public class StringUtils {
         }
         return false;
     }
+
+    /**
+     * 字符串是否包含中文
+     * @param sentence
+     * @return
+     */
+    public static boolean isHaveChineseWord(String sentence){
+        Matcher matcher = REGEX_IS_CHINESE_WORD.matcher(sentence);
+        boolean b = matcher.find();
+        if (b){
+            return true;
+        }
+        return false;
+    }
+
 }
