@@ -14,7 +14,7 @@ public class FileUtils {
         BufferedWriter bwCh = new BufferedWriter(writerChinese);
         for (EnAndCh enAndCh : enAndChList){
             //过滤不符规定的数据
-            boolean filter = !StringUtils.isHaveEnglishWord(enAndCh.getChinese()) && enAndCh.getChinese().length() > 4 && !StringUtils.isHaveChineseWord(enAndCh.getEnglish());
+            boolean filter = !StringUtils.isHaveEnglishWord(enAndCh.getChinese()) && enAndCh.getChinese().length() > 4 && !StringUtils.isHaveChineseWord(enAndCh.getEnglish()) && enAndCh.getEnglish().split(" ").length>4;
             if(filter){
                 bwEn.write(enAndCh.getEnglish());
                 bwEn.newLine();

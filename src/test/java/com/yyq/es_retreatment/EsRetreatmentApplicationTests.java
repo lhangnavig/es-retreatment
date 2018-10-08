@@ -20,20 +20,21 @@ public class EsRetreatmentApplicationTests {
 
     @Test
     public void contextLoads() throws Exception {
-        Integer total = searchController.getTotal("en-us", 48L, 52L, 12, 1000);
+        Integer total = searchController.getTotal("en-us", 48L, 52L, 12, 10000);
 
-        for (int i = 0; i <= total / 1000; i++) {
-            List<EnAndCh> dataByPage = searchController.getDataByPage("en-us", 48L, 52L, i, 1000);
+        for (int i = 0; i <= total / 10000; i++) {
+            List<EnAndCh> dataByPage = searchController.getDataByPage("en-us", 48L, 52L, i, 10000);
             System.out.println(dataByPage);
-            String pathEn = "D:\\javaWorkStation\\es-retreatment\\src\\main\\resources\\english.txt";
-            String pathCh = "D:\\javaWorkStation\\es-retreatment\\src\\main\\resources\\chinese.txt";
-            FileUtils.writeToFile(pathEn,pathCh,dataByPage);
+            String pathEn = "D:\\english.txt";
+            String pathCh = "D:\\chinese.txt";
+            FileUtils.writeToFile(pathEn, pathCh, dataByPage);
         }
 
     }
 
     public static void main(String[] args) {
-
+        String str = "Even using the best acne medicines and cleansers won't get the job done";
+        System.out.println(str.split(" ").length);
     }
 
 }
