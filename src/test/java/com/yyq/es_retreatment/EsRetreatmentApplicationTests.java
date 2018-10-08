@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class EsRetreatmentApplicationTests {
@@ -28,6 +29,10 @@ public class EsRetreatmentApplicationTests {
             String pathCh = "D:\\javaWorkStation\\es-retreatment\\src\\main\\resources\\chinese.txt";
             FileUtils.writeToFile(pathEn,pathCh,dataByPage);
         }
+
+    }
+
+    public static void main(String[] args) {
 
     }
 

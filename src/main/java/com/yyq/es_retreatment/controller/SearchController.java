@@ -2,17 +2,13 @@ package com.yyq.es_retreatment.controller;
 
 import com.yyq.es_retreatment.entity.EnAndCh;
 import com.yyq.es_retreatment.repository.EnAndChRepository;
-
 import com.yyq.es_retreatment.util.FileUtils;
-import com.yyq.es_retreatment.util.StringUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.http.ResponseEntity;
@@ -36,10 +32,10 @@ public class SearchController {
     @GetMapping(value = "/get_data")
     public ResponseEntity getData(@RequestParam("indexName") String indexName, @RequestParam("domain") Long domain,
                                   @RequestParam("subDomain") Long subDomain) {
-        Integer total = getTotal(indexName, domain, subDomain, 12, 1000);
+        Integer total = getTotal(indexName, domain, subDomain, 12, 10000);
 
-        for (int i = 0; i <= total / 1000; i++) {
-            List<EnAndCh> dataByPage = getDataByPage(indexName, domain, subDomain, i, 1000);
+        for (int i = 0; i <= total / 10000; i++) {
+            List<EnAndCh> dataByPage = getDataByPage(indexName, domain, subDomain, i, 10000);
             System.out.println(dataByPage);
             String pathEn = "D:\\javaWorkStation\\es-retreatment\\src\\main\\resources\\english.txt";
             String pathCh = "D:\\javaWorkStation\\es-retreatment\\src\\main\\resources\\chinese.txt";

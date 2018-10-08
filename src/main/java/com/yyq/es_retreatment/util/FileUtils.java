@@ -13,10 +13,13 @@ public class FileUtils {
         BufferedWriter bwEn = new BufferedWriter(writerEnglish);
         BufferedWriter bwCh = new BufferedWriter(writerChinese);
         for (EnAndCh enAndCh : enAndChList){
-            bwEn.write(enAndCh.getEnglish());
-            bwEn.newLine();
-            bwCh.write(enAndCh.getChinese());
-            bwCh.newLine();
+            //中文句子不包含英文
+            if(!StringUtils.isHaveEnglishWord(enAndCh.getChinese())){
+                bwEn.write(enAndCh.getEnglish());
+                bwEn.newLine();
+                bwCh.write(enAndCh.getChinese());
+                bwCh.newLine();
+            }
         }
         bwEn.close();
         bwCh.close();
@@ -24,7 +27,4 @@ public class FileUtils {
         writerChinese.close();
     }
 
-//    public static void main(String[] args)throws Exception {
-//        writeToFile("",new String[]{"1212","werwer","我们见得"});
-//    }
 }

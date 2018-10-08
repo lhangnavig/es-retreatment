@@ -31,6 +31,7 @@ public class StringUtils {
     static final private Pattern REGEX_IS_ALL_NUMBER = Pattern.compile("^\\d*$");
     static final private Pattern ALLOWABLE_IP_REGEX = Pattern.compile("(127[.]0[.]0[.]1)|" + "(localhost)|" + "(^10(\\.([2][0-4]\\d|[2][5][0-5]|[01]?\\d?\\d)){3}$)|" + "(^172\\.([1][6-9]|[2]\\d|3[01])(\\.([2][0-4]\\d|[2][5][0-5]|[01]?\\d?\\d)){2}$)|" + "(^192\\.168(\\.([2][0-4]\\d|[2][5][0-5]|[01]?\\d?\\d)){2}$)");
     static final private Pattern ALLOWABLE_URL_REGEX = Pattern.compile(".*(\\.jpg|\\.png|\\.gif|\\.js|\\.css).*");
+    static final private Pattern REGEX_IS_ENGLISH_WORD  = Pattern.compile("[a-zA-Z]");
 
     /**
      * 字符串不为空
@@ -492,5 +493,19 @@ public class StringUtils {
      */
     public static boolean filterUrl(String url) {
         return ALLOWABLE_URL_REGEX.matcher(url).find();
+    }
+
+    /**
+     * 字符串是否包含英文单词
+     * @param sentence
+     * @return
+     */
+    public static boolean isHaveEnglishWord(String sentence){
+        Matcher matcher = REGEX_IS_ENGLISH_WORD.matcher(sentence);
+        boolean b = matcher.find();
+        if (b){
+            return true;
+        }
+        return false;
     }
 }
