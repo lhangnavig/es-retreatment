@@ -67,11 +67,7 @@ public class SearchController {
         nativeSearchQueryBuilder.withPageable(page);
         NativeSearchQuery query = nativeSearchQueryBuilder.build();
         Page<EnAndCh> pages = repo.search(query);
-        int total = (int) pages.getTotalElements();
-        System.out.println(total);
         List<EnAndCh> content = pages.getContent();
-
-
         return content;
     }
 
