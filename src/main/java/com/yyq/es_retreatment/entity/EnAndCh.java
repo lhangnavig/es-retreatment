@@ -55,4 +55,15 @@ public class EnAndCh {
     public void setEnglish(String english) {
         this.english = english;
     }
+
+    @Override
+    public String toString() {
+        return "EnAndCh{" +
+                "id='" + id + '\'' +
+                ", domain='" + domain + '\'' +
+                ", sub_domain='" + sub_domain + '\'' +
+                ", chinese='" + chinese + '\'' +
+                ", english='" + english + '\'' +
+                '}';
+    }
 }
