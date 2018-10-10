@@ -1,11 +1,15 @@
 package com.yyq.es_retreatment.controller;
 
+import com.yyq.es_retreatment.entity.Domain;
 import com.yyq.es_retreatment.entity.EnAndCh;
+import com.yyq.es_retreatment.repository.DomainRepository;
 import com.yyq.es_retreatment.repository.EnAndChRepository;
 import com.yyq.es_retreatment.util.FileUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,8 +27,10 @@ import java.util.List;
 @RestController
 @Component
 public class SearchController {
-//    @Autowired
+    //    @Autowired
 //    private ElasticsearchTemplate elasticsearchTemplate;
+    @Autowired
+    DomainRepository domainRepository;
 
     @Autowired
     EnAndChRepository repo;
@@ -33,14 +39,13 @@ public class SearchController {
     public ResponseEntity getData(@RequestParam("indexName") String indexName, @RequestParam("domain") Long domain,
                                   @RequestParam("subDomain") Long subDomain) {
         Integer total = getTotal(indexName, domain, subDomain, 12, 10000);
-
+        String fullSpecialtyName = domainRepository.findBypecialtyId(subDomain);
+        String pathEn = "D:\\"+fullSpecialtyName+"en.txt";
+        String pathCh = "D:\\"+fullSpecialtyName+"ch.txt";
         for (int i = 0; i <= total / 10000; i++) {
             List<EnAndCh> dataByPage = getDataByPage(indexName, domain, subDomain, i, 10000);
-            System.out.println(dataByPage);
-            String pathEn = "D:\\english.txt";
-            String pathCh = "D:\\chinese.txt";
             try {
-                FileUtils.writeToFile(pathEn,pathCh,dataByPage);
+                FileUtils.writeToFile(pathEn, pathCh, dataByPage);
             } catch (Exception e) {
                 e.printStackTrace();
             }
