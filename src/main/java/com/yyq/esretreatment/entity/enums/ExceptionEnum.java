@@ -1,9 +1,8 @@
-package com.yyq.es_retreatment.entity.enums;
+package com.yyq.esretreatment.entity.enums;
 
 /**
  * create by XiangChao on 2018/10/11
  */
-
 public enum ExceptionEnum {
     /**
      * 文件未找到异常

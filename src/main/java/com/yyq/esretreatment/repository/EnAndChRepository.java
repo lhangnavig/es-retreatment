@@ -1,6 +1,6 @@
-package com.yyq.es_retreatment.repository;
+package com.yyq.esretreatment.repository;
 
-import com.yyq.es_retreatment.entity.repository.EnAndCh;
+import com.yyq.esretreatment.entity.repository.EnAndCh;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Component;
 

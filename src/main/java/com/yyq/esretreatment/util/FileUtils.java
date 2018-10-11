@@ -1,6 +1,6 @@
-package com.yyq.es_retreatment.util;
+package com.yyq.esretreatment.util;
 
-import com.yyq.es_retreatment.entity.repository.EnAndCh;
+import com.yyq.esretreatment.entity.repository.EnAndCh;
 
 import java.io.BufferedWriter;
 import java.io.File;

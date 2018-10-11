@@ -1,8 +1,8 @@
-package com.yyq.es_retreatment.service;
+package com.yyq.esretreatment.service;
 
-import com.yyq.es_retreatment.entity.enums.ExceptionWrapperEnum;
-import com.yyq.es_retreatment.entity.vo.CommonData;
-import com.yyq.es_retreatment.exception.CustomException;
+import com.yyq.esretreatment.entity.enums.ExceptionWrapperEnum;
+import com.yyq.esretreatment.entity.vo.CommonData;
+import com.yyq.esretreatment.exception.CustomException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 

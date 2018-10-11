@@ -1,4 +1,4 @@
-package com.yyq.es_retreatment;
+package com.yyq.esretreatment;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

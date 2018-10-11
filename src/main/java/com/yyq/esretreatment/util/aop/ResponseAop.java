@@ -1,8 +1,8 @@
-package com.yyq.es_retreatment.util.aop;
+package com.yyq.esretreatment.util.aop;
 
 
-import com.yyq.es_retreatment.entity.vo.CommonData;
-import com.yyq.es_retreatment.service.ExceptionHandle;
+import com.yyq.esretreatment.entity.vo.CommonData;
+import com.yyq.esretreatment.service.ExceptionHandle;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
@@ -22,13 +22,13 @@ import java.util.Arrays;
  */
 @Component
 @Aspect
-public class ResponseAOP {
+public class ResponseAop {
 
     Log logger = LogFactory.getLog(this.getClass());
     @Autowired
     ExceptionHandle exceptionHandle;
 
-    @Pointcut("execution(public * com.yyq.es_retreatment.controller..*.*(..))")
+    @Pointcut("execution(public * com.yyq.esretreatment.controller..*.*(..))")
     public void reponseDo() {
     }
 

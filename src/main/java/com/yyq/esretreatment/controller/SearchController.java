@@ -1,10 +1,10 @@
-package com.yyq.es_retreatment.controller;
+package com.yyq.esretreatment.controller;
 
-import com.yyq.es_retreatment.entity.repository.EnAndCh;
-import com.yyq.es_retreatment.repository.DomainRepository;
-import com.yyq.es_retreatment.repository.EnAndChRepository;
-import com.yyq.es_retreatment.util.FileUtils;
-import com.yyq.es_retreatment.util.IOtools;
+import com.yyq.esretreatment.entity.repository.EnAndCh;
+import com.yyq.esretreatment.repository.DomainRepository;
+import com.yyq.esretreatment.repository.EnAndChRepository;
+import com.yyq.esretreatment.util.FileUtils;
+import com.yyq.esretreatment.util.IOtools;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -26,11 +26,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipOutputStream;
 
+/**
+ * @author XiangChao
+ * @date 2018/10/11
+ */
 @RestController
 @Component
 public class SearchController {
-    //    @Autowired
-//    private ElasticsearchTemplate elasticsearchTemplate;
+
     @Autowired
     DomainRepository domainRepository;
 
@@ -49,8 +52,8 @@ public class SearchController {
     @GetMapping(value = "/get_data")
     public ResponseEntity getData(@RequestParam("indexName") String indexName, @RequestParam("domain") Long domain,
                                   @RequestParam(value = "subDomain",required = false) Long subDomain) throws Exception {
-
-        Integer total = getTotal(indexName, domain, subDomain, 12, 10000);
+        int maxSize = 10000;
+        Integer total = getTotal(indexName, domain, subDomain, 12, maxSize);
         String fullSubSpecialtyName = domainRepository.findBypecialtyId(subDomain);
         String fullSpecialtyName = domainRepository.findBypecialtyId(domain);
         String dir = "D:\\language\\" + fullSpecialtyName + "\\";
@@ -63,8 +66,8 @@ public class SearchController {
            for(Object[] r:subDomainNames){
                pathEn = dir + r[1] + "en.txt";
                pathCh = dir + r[1] + "ch.txt";
-               for (int i = 0; i <= total / 10000; i++) {
-                   List<EnAndCh> dataByPage = getDataByPage(indexName, domain, Long.valueOf((Integer)r[0]), i, 10000);
+               for (int i = 0; i <= total / maxSize; i++) {
+                   List<EnAndCh> dataByPage = getDataByPage(indexName, domain, Long.valueOf((Integer)r[0]), i, maxSize);
                    try {
                        FileUtils.writeToFile(pathEn, pathCh, dataByPage);
                    } catch (Exception e) {
@@ -73,8 +76,8 @@ public class SearchController {
                }
            }
         }else {
-            for (int i = 0; i <= total / 10000; i++) {
-                List<EnAndCh> dataByPage = getDataByPage(indexName, domain, subDomain, i, 10000);
+            for (int i = 0; i <= total / maxSize; i++) {
+                List<EnAndCh> dataByPage = getDataByPage(indexName, domain, subDomain, i, maxSize);
                 try {
                     FileUtils.writeToFile(pathEn, pathCh, dataByPage);
                 } catch (Exception e) {
@@ -203,10 +206,11 @@ public class SearchController {
             File file = new File(fileName);
             int length = fileName.split("\\\\").length;
             fileName = fileName.split("\\\\")[length - 1];
-            //File file = new File(realPath , fileName);
             if (file.exists()) {
-                response.setContentType("application/force-download");// 设置强制下载不打开
-                response.addHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes("GBK"), "ISO8859-1"));// 设置文件名
+                //设置强制下载不打开
+                response.setContentType("application/force-download");
+                //设置文件名
+                response.addHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes("GBK"), "ISO8859-1"));
                 byte[] buffer = new byte[1024];
                 FileInputStream fis = null;
                 BufferedInputStream bis = null;

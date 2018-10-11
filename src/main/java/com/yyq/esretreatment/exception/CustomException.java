@@ -1,6 +1,6 @@
-package com.yyq.es_retreatment.exception;
+package com.yyq.esretreatment.exception;
 
-import com.yyq.es_retreatment.entity.enums.ExceptionEnum;
+import com.yyq.esretreatment.entity.enums.ExceptionEnum;
 import lombok.Data;
 
 /**

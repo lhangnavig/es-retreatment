@@ -1,4 +1,4 @@
-package com.yyq.es_retreatment.util;
+package com.yyq.esretreatment.util;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
@@ -50,32 +50,38 @@ public class IOtools {
                     BufferedInputStream bInStream = new BufferedInputStream(inStream);
                     ZipEntry entry = new ZipEntry(inputFile.getName());
                     outputstream.putNextEntry(entry);
-
-                    final int maxByte = 10 * 1024 * 1024; // 最大的流为10M
-                    long streamTotal = 0; // 接受流的容量
-                    int streamNum = 0; // 流需要分开的数量
-                    int leaveByte = 0; // 文件剩下的字符数
-                    byte[] inOutbyte; // byte数组接受文件的数据
-
-                    streamTotal = bInStream.available(); // 通过available方法取得流的最大字符数
-                    streamNum = (int) Math.floor(streamTotal / maxByte); // 取得流文件需要分开的数量
-                    leaveByte = (int) streamTotal % maxByte; // 分开文件之后,剩余的数量
+                    //最大的流为10M
+                    final int maxByte = 10 * 1024 * 1024;
+                    //接受流的容量
+                    long streamTotal = 0;
+                    //流需要分开的数量
+                    int streamNum = 0;
+                    //文件剩下的字符数
+                    int leaveByte = 0;
+                    //byte数组接受文件的数据
+                    byte[] inOutbyte;
+                    //通过available方法取得流的最大字符数
+                    streamTotal = bInStream.available();
+                    //取得流文件需要分开的数量
+                    streamNum = (int) Math.floor(streamTotal / maxByte);
+                    //分开文件之后,剩余的数量
+                    leaveByte = (int) streamTotal % maxByte;
 
                     if (streamNum > 0) {
                         for (int j = 0; j < streamNum; ++j) {
                             inOutbyte = new byte[maxByte];
                             // 读入流,保存在byte数组
                             bInStream.read(inOutbyte, 0, maxByte);
-                            outputstream.write(inOutbyte, 0, maxByte); // 写出流
+                            // 写出流
+                            outputstream.write(inOutbyte, 0, maxByte);
                         }
                     }
                     // 写出剩下的流数据
                     inOutbyte = new byte[leaveByte];
                     bInStream.read(inOutbyte, 0, leaveByte);
                     outputstream.write(inOutbyte);
-                    outputstream.closeEntry(); // Closes the current ZIP entry
-                    // and positions the stream for
-                    // writing the next entry
+                    //Closes the current ZIP entry
+                    outputstream.closeEntry();
                     bInStream.close(); // 关闭
                     inStream.close();
                 }
@@ -96,12 +102,12 @@ public class IOtools {
      */
     public static void downloadFile(File file, HttpServletResponse response, boolean isDelete) {
         try {
-            // 以流的形式下载文件。
+            //以流的形式下载文件。
             BufferedInputStream fis = new BufferedInputStream(new FileInputStream(file.getPath()));
             byte[] buffer = new byte[fis.available()];
             fis.read(buffer);
             fis.close();
-            // 清空response
+            //清空response
             response.reset();
             OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
             response.setContentType("application/octet-stream");
@@ -110,7 +116,8 @@ public class IOtools {
             toClient.flush();
             toClient.close();
             if (isDelete) {
-                file.delete();        //是否将生成的服务器端文件删除
+                //是否将生成的服务器端文件删除
+                file.delete();
             }
         } catch (IOException ex) {
             ex.printStackTrace();

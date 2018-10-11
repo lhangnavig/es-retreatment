@@ -1,9 +1,9 @@
-package com.yyq.es_retreatment;
+package com.yyq.esretreatment;
 
-import com.yyq.es_retreatment.controller.SearchController;
-import com.yyq.es_retreatment.entity.repository.EnAndCh;
-import com.yyq.es_retreatment.repository.DomainRepository;
-import com.yyq.es_retreatment.util.FileUtils;
+import com.yyq.esretreatment.controller.SearchController;
+import com.yyq.esretreatment.entity.repository.EnAndCh;
+import com.yyq.esretreatment.repository.DomainRepository;
+import com.yyq.esretreatment.util.FileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
