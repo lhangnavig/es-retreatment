@@ -6,7 +6,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.List;
-
+/**
+ * create by XiangChao on 2018/10/10
+ */
 public class FileUtils {
     public static void writeToFile(String englishPath, String chinesePath, List<EnAndCh> enAndChList) throws Exception {
         FileWriter writerEnglish = new FileWriter(englishPath, true);

@@ -18,10 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
 /**
- * @author Liujuhao
- * @date 2018/8/2.
+ * create by XiangChao on 2018/10/10
  */
-
 @Component
 @Aspect
 public class ResponseAOP {

@@ -3,7 +3,9 @@ package com.yyq.es_retreatment.entity.repository;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-
+/**
+ * create by LiHang on 2018/10/10
+ */
 @Document(indexName = "en-us",type="data")
 public class EnAndCh {
 
@@ -11,7 +13,7 @@ public class EnAndCh {
     private String id;
 
     private String domain;
-    private String sub_domain;
+    private String subDomain;
     private String chinese;
     private String english;
 
@@ -32,12 +34,12 @@ public class EnAndCh {
         this.domain = domain;
     }
 
-    public String getSub_domain() {
-        return sub_domain;
+    public String getSubDomain() {
+        return subDomain;
     }
 
-    public void setSub_domain(String sub_domain) {
-        this.sub_domain = sub_domain;
+    public void setSubDomain(String subDomain) {
+        this.subDomain = subDomain;
     }
 
     public String getChinese() {
@@ -61,7 +63,7 @@ public class EnAndCh {
         return "EnAndCh{" +
                 "id='" + id + '\'' +
                 ", domain='" + domain + '\'' +
-                ", sub_domain='" + sub_domain + '\'' +
+                ", subDomain='" + subDomain + '\'' +
                 ", chinese='" + chinese + '\'' +
                 ", english='" + english + '\'' +
                 '}';

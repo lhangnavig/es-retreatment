@@ -1,8 +1,6 @@
 package com.yyq.es_retreatment.controller;
 
-import com.yyq.es_retreatment.entity.enums.ExceptionEnum;
 import com.yyq.es_retreatment.entity.repository.EnAndCh;
-import com.yyq.es_retreatment.exception.CustomException;
 import com.yyq.es_retreatment.repository.DomainRepository;
 import com.yyq.es_retreatment.repository.EnAndChRepository;
 import com.yyq.es_retreatment.util.FileUtils;
@@ -51,9 +49,7 @@ public class SearchController {
     @GetMapping(value = "/get_data")
     public ResponseEntity getData(@RequestParam("indexName") String indexName, @RequestParam("domain") Long domain,
                                   @RequestParam(value = "subDomain",required = false) Long subDomain) throws Exception {
-        if(domain==48){
-            throw new CustomException(ExceptionEnum.FILE_NOT_FOUND);
-        }
+
         Integer total = getTotal(indexName, domain, subDomain, 12, 10000);
         String fullSubSpecialtyName = domainRepository.findBypecialtyId(subDomain);
         String fullSpecialtyName = domainRepository.findBypecialtyId(domain);
@@ -155,7 +151,7 @@ public class SearchController {
         nativeSearchQueryBuilder.withQuery(boolQueryBuilder);
         PageRequest page = null;
         if (pageNo != null && pageSize != null) {
-            page = new PageRequest(pageNo, pageSize);
+            page = PageRequest.of(pageNo, pageSize);
         }
         nativeSearchQueryBuilder.withPageable(page);
         NativeSearchQuery query = nativeSearchQueryBuilder.build();
@@ -179,7 +175,7 @@ public class SearchController {
         nativeSearchQueryBuilder.withQuery(boolQueryBuilder);
         PageRequest page = null;
         if (pageNo != null && pageSize != null) {
-            page = new PageRequest(pageNo, pageSize);
+            page = PageRequest.of(pageNo, pageSize);
         }
         nativeSearchQueryBuilder.withPageable(page);
         NativeSearchQuery query = nativeSearchQueryBuilder.build();
