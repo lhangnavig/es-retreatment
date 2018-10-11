@@ -82,7 +82,7 @@ public class SearchController {
             }
         }
 
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().body(1);
     }
 
     /**
