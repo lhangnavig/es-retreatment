@@ -2,11 +2,13 @@ package com.yyq.es_retreatment.util.aop;
 
 
 import com.yyq.es_retreatment.entity.vo.CommonData;
+import com.yyq.es_retreatment.service.ExceptionHandle;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -25,6 +27,8 @@ import java.util.Arrays;
 public class ResponseAOP {
 
     Log logger = LogFactory.getLog(this.getClass());
+    @Autowired
+    ExceptionHandle exceptionHandle;
 
     @Pointcut("execution(public * com.yyq.es_retreatment.controller..*.*(..))")
     public void reponseDo() {
@@ -54,11 +58,12 @@ public class ResponseAOP {
         Object result;
         logger.info("AROUND_TARGET_METHOD : " + proceedingJoinPoint.getSignature().getName());
         try {
-
+            result = proceedingJoinPoint.proceed();
         } catch (Exception e) {
-            return e;
+            e.printStackTrace();
+            return ResponseEntity.ok().body(exceptionHandle.handle(e));
         }
-        result = proceedingJoinPoint.proceed();
+
         if (result instanceof ResponseEntity) {
             Object body = ((ResponseEntity) result).getBody();
             if (body instanceof Integer && (int) body == 1) {
