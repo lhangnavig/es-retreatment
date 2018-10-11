@@ -1,4 +1,4 @@
-package com.yyq.es_retreatment.entity;
+package com.yyq.es_retreatment.entity.repository;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;

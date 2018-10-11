@@ -1,4 +1,4 @@
-package com.yyq.es_retreatment.entity;
+package com.yyq.es_retreatment.entity.repository;
 
 import lombok.Data;
 

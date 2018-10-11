@@ -1,9 +1,11 @@
 package com.yyq.es_retreatment.repository;
 
-import com.yyq.es_retreatment.entity.Domain;
+import com.yyq.es_retreatment.entity.repository.Domain;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * create by XiangChao on 2018/10/10
@@ -21,4 +23,7 @@ public interface DomainRepository extends JpaRepository<Domain, String> {
 
     @Query(nativeQuery = true, value = "select full_specialty_name from domain where specialty_id = (select p_specialty_id from domain where specialty_id = ?1)")
     String findPNameBySpecialtyId(String subdomain);
+
+    @Query(nativeQuery = true,value = "select specialty_id,full_specialty_name from domain where p_specialty_id = ?1")
+    List<Object[]> getSubDomainNames(Long domain);
 }

@@ -1,7 +1,8 @@
 package com.yyq.es_retreatment;
 
 import com.yyq.es_retreatment.controller.SearchController;
-import com.yyq.es_retreatment.entity.EnAndCh;
+import com.yyq.es_retreatment.entity.repository.EnAndCh;
+import com.yyq.es_retreatment.repository.DomainRepository;
 import com.yyq.es_retreatment.util.FileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,8 @@ import java.util.List;
 public class EsRetreatmentApplicationTests {
     @Autowired
     SearchController searchController;
+    @Autowired
+    DomainRepository domainRepository;
 
     @Test
     public void contextLoads() throws Exception {
@@ -31,6 +34,16 @@ public class EsRetreatmentApplicationTests {
         }
 
     }
+
+    @Test
+    public void test() throws Exception {
+        List<Object[]> subDomainNames = domainRepository.getSubDomainNames(48L);
+        subDomainNames.forEach(r->{
+            System.out.println(r[0]);
+            System.out.println(r[1]);
+        });
+    }
+
 
     public static void main(String[] args) {
         String str = "Even using the best acne medicines and cleansers won't get the job done";

@@ -1,6 +1,6 @@
 package com.yyq.es_retreatment.controller;
 
-import com.yyq.es_retreatment.entity.EnAndCh;
+import com.yyq.es_retreatment.entity.repository.EnAndCh;
 import com.yyq.es_retreatment.repository.DomainRepository;
 import com.yyq.es_retreatment.repository.EnAndChRepository;
 import com.yyq.es_retreatment.util.FileUtils;
@@ -48,7 +48,7 @@ public class SearchController {
      */
     @GetMapping(value = "/get_data")
     public ResponseEntity getData(@RequestParam("indexName") String indexName, @RequestParam("domain") Long domain,
-                                  @RequestParam("subDomain") Long subDomain) throws Exception {
+                                  @RequestParam(value = "subDomain",required = false) Long subDomain) throws Exception {
         Integer total = getTotal(indexName, domain, subDomain, 12, 10000);
         String fullSubSpecialtyName = domainRepository.findBypecialtyId(subDomain);
         String fullSpecialtyName = domainRepository.findBypecialtyId(domain);
@@ -56,12 +56,29 @@ public class SearchController {
         FileUtils.createDir(dir);
         String pathEn = dir + fullSubSpecialtyName + "en.txt";
         String pathCh = dir + fullSubSpecialtyName + "ch.txt";
-        for (int i = 0; i <= total / 10000; i++) {
-            List<EnAndCh> dataByPage = getDataByPage(indexName, domain, subDomain, i, 10000);
-            try {
-                FileUtils.writeToFile(pathEn, pathCh, dataByPage);
-            } catch (Exception e) {
-                e.printStackTrace();
+
+        if(subDomain==null){
+            List<Object[]> subDomainNames = domainRepository.getSubDomainNames(domain);
+           for(Object[] r:subDomainNames){
+               pathEn = dir + r[1] + "en.txt";
+               pathCh = dir + r[1] + "ch.txt";
+               for (int i = 0; i <= total / 10000; i++) {
+                   List<EnAndCh> dataByPage = getDataByPage(indexName, domain, Long.valueOf((Integer)r[0]), i, 10000);
+                   try {
+                       FileUtils.writeToFile(pathEn, pathCh, dataByPage);
+                   } catch (Exception e) {
+                       e.printStackTrace();
+                   }
+               }
+           }
+        }else {
+            for (int i = 0; i <= total / 10000; i++) {
+                List<EnAndCh> dataByPage = getDataByPage(indexName, domain, subDomain, i, 10000);
+                try {
+                    FileUtils.writeToFile(pathEn, pathCh, dataByPage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -108,8 +125,8 @@ public class SearchController {
      */
     @GetMapping(value = "/downloads_ch_batch")
     public void batchDownloadsCh(HttpServletRequest request, HttpServletResponse response, @RequestParam("domain") Long domain) throws Exception {
-        String fullSpecialtyName = domainRepository.findByPSecialtyId(domain);
-        String path = "D:\\language\\" + fullSpecialtyName + ".zip";
+        String fullSpecialtyName = domainRepository.findBypecialtyId(domain);
+        String path = "D:\\language\\" + fullSpecialtyName + ".rar";
         ArrayList<File> files = IOtools.getFiles("D:\\language\\" + fullSpecialtyName);
         ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(new File(path)));
         IOtools.zipFile(files, zipOutputStream);
@@ -120,12 +137,13 @@ public class SearchController {
 
     public List<EnAndCh> getDataByPage(String indexName, Long domain, Long subDomain, Integer pageNo, Integer pageSize) {
         MatchQueryBuilder queryBuilderDomain = new MatchQueryBuilder("domain", domain);
-        MatchQueryBuilder queryBuilderSubDomain = new MatchQueryBuilder("sub_domain", subDomain);
+
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         if (domain != null) {
             boolQueryBuilder.must(queryBuilderDomain);
         }
         if (subDomain != null) {
+            MatchQueryBuilder queryBuilderSubDomain = new MatchQueryBuilder("sub_domain", subDomain);
             boolQueryBuilder.must(queryBuilderSubDomain);
         }
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
@@ -143,12 +161,13 @@ public class SearchController {
 
     public Integer getTotal(String indexName, Long domain, Long subDomain, Integer pageNo, Integer pageSize) {
         MatchQueryBuilder queryBuilderDomain = new MatchQueryBuilder("domain", domain);
-        MatchQueryBuilder queryBuilderSubDomain = new MatchQueryBuilder("sub_domain", subDomain);
+
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         if (domain != null) {
             boolQueryBuilder.must(queryBuilderDomain);
         }
         if (subDomain != null) {
+            MatchQueryBuilder queryBuilderSubDomain = new MatchQueryBuilder("sub_domain", subDomain);
             boolQueryBuilder.must(queryBuilderSubDomain);
         }
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
